@@ -11,10 +11,15 @@ Our experiment codes are written based on [DyGLib](https://github.com/yule-BUAA/
 
 Five datasets are used in DyGLib, including ASSITment12, ASSITment17, Slepemapy.cz, junyi, EdNet-KT1, 
 The datasets come from 
+
 1 https://sites.google.com/site/assistmentsdata/datasets/2012-13-school-data-with-affect
+
 2 https://sites.google.com/view/assistmentsdatamining/dataset
+
 3 https://www.fi.muni.cz/adaptivelearning/?a=data
+
 4 https://pslcdatashop.web.cmu.edu/DatasetInfo?datasetId=1198
+
 5 https://github.com/riiid/ednet
 
 ## Knowledge Tracing Models
@@ -34,6 +39,7 @@ DyGLib supports dynamic link classification under both transductive and inductiv
 New datasets and new models are welcomed to be incorporated into DyGLib by pull requests.
 * For new datasets: The format of new datasets should satisfy the requirements in ```DG_data/DATASETS_README.md```. 
   Users can put the new datasets in ```DG_data``` folder, and then run ```preprocess_data/preprocess_data.py``` to get the processed datasets.
+  
 * For new models: Users can put the model implementation in  ```models``` folder, 
   and then create the model in ```train_xxx.py``` or ```evaluate_xxx.py``` to run the model.
 
@@ -64,6 +70,7 @@ python evaluate_link_classification.py --dataset_name assist17 --model_name DyGK
 
 We are grateful to the authors of 
 [DyGLib](https://github.com/yule-BUAA/DyGLib)
+
 [pyKT](https://pykt-toolkit.readthedocs.io/en/latest/models.html) for making their project codes publicly available.
 
 
