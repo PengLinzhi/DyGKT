@@ -9,22 +9,12 @@ Our experiment codes are written based on [DyGLib](https://github.com/yule-BUAA/
 
 ## Benchmark Datasets and Preprocessing
 
-Five datasets are used in DyGLib, including ASSITment12, ASSITment17, Slepemapy.cz, junyi, EdNet-KT1, 
-The datasets come from 
+Five datasets are used in DyGLib, including [ASSITment12](https://sites.google.com/site/assistmentsdata/datasets/2012-13-school-data-with-affect), [ASSITment17](https://sites.google.com/view/assistmentsdatamining/dataset), [Slepemapy.cz](https://www.fi.muni.cz/adaptivelearning/?a=data), [junyi](https://pslcdatashop.web.cmu.edu/DatasetInfo?datasetId=1198), [EdNet-KT1](https://github.com/riiid/ednet).
 
-1 https://sites.google.com/site/assistmentsdata/datasets/2012-13-school-data-with-affect
-
-2 https://sites.google.com/view/assistmentsdatamining/dataset
-
-3 https://www.fi.muni.cz/adaptivelearning/?a=data
-
-4 https://pslcdatashop.web.cmu.edu/DatasetInfo?datasetId=1198
-
-5 https://github.com/riiid/ednet
 
 ## Knowledge Tracing Models
 
-Eight classic or popular continuous-time knowledge tracing models are transformed into dynamic graph learning methods are included in our experiment, including models based on recurrent neural networks with the help of additional information or encoder, DKT, IEKT, LPKT, DIMKT, CT-NCM, and QIKT. You can find the models in [pyKT](https://pykt-toolkit.readthedocs.io/en/latest/models.html)
+Eight classic or popular continuous-time knowledge tracing models are transformed into dynamic graph learning methods are included in our experiment, including models based on recurrent neural networks with the help of additional information or encoder, DKT, IEKT, LPKT, DIMKT, CT-NCM, and QIKT. You can find the models in [pyKT](https://pykt-toolkit.readthedocs.io/en/latest/models.html)
 
 ## Dynamic Graph Models
 Apart from traditional KT models, We conduct tests under general dynamic graph frameworks, TGN, TGAT, DyGFormer, and DyGKT to confirm the effectiveness of defining paradigms for training tasks under dynamic graphs and expressing dynamic features in the knowledge tracing task.
@@ -70,7 +60,6 @@ python evaluate_link_classification.py --dataset_name assist17 --model_name DyGK
 
 We are grateful to the authors of 
 [DyGLib](https://github.com/yule-BUAA/DyGLib)
-
 [pyKT](https://pykt-toolkit.readthedocs.io/en/latest/models.html) for making their project codes publicly available.
 
 
