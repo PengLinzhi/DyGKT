@@ -1,0 +1,27 @@
+# 过滤所有其他文件夹内的
+logs/*
+figures/*
+DG_data/*
+preprocess_data/*
+saved_models/*
+saved_results/*
+
+# 忽略 processed_data 文件夹下除 assist17 文件夹以外的所有内容
+processed_data/*
+!processed_data/assist17/
+
+# 忽略 models 文件夹下的所有内容
+!models/*
+!utils/*
+
+# 指定的三个 py 文件
+*.bat
+
+zreadout.py
+case_study.py
+
+train_node_classification.py
+evaluate_node_classification.py
+
+train_link_prediction.py
+evaluate_link_prediction.py
