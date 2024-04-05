@@ -2,7 +2,6 @@
 logs/*
 figures/*
 DG_data/*
-preprocess_data/*
 saved_models/*
 saved_results/*
 
@@ -10,6 +9,9 @@ saved_results/*
 processed_data/*
 !processed_data/assist17/
 
+preprocess_data/*
+!preprocess_data/preprocess_data.py
+!preprocess_data/data_statistics.py
 # 忽略 models 文件夹下的所有内容
 !models/*
 !utils/*
