@@ -42,10 +42,6 @@ New datasets and new models are welcomed to be incorporated into DyGLib by pull 
 [tqdm](https://github.com/tqdm/tqdm), and 
 [tabulate](https://github.com/astanin/python-tabulate)
 
-
-### Scripts for Dynamic Node Classification
-Dynamic node classification could be performed on Wikipedia and Reddit (the only two datasets with dynamic labels).
-
 #### Data Preparing
 See detailed information in [DyGLib](https://github.com/yule-BUAA/DyGLib)
 
