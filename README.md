@@ -1,5 +1,5 @@
 # DyGKT: Dynamic Graph for Adaptive Knowledge Tracing
-This repository is built for the paper DyGKT: Dynamic Graph for Adaptive Knowledge Tracing.
+This repository is built for the paper DyGKT: Dynamic Graph for Knowledge Tracing.
 
 ## Overview
 
