@@ -14,7 +14,7 @@ Five datasets are used in DyGLib, including [ASSITment12](https://sites.google.c
 
 ## Knowledge Tracing Models
 
-Eight classic or popular continuous-time knowledge tracing models are transformed into dynamic graph learning methods are included in our experiment, including models based on recurrent neural networks with the help of additional information or encoder, DKT, IEKT, LPKT, DIMKT, CT-NCM, and QIKT. You can find the models in [pyKT](https://pykt-toolkit.readthedocs.io/en/latest/models.html)
+Eight classic or popular continuous-time knowledge tracing models are transformed into dynamic graph learning methods are included in our experiment, including models based on recurrent neural networks with the help of additional information or encoder, DKT, IEKT, LPKT, DIMKT, [CT-NCM](https://www.ijcai.org/proceedings/2022/0302.pdf), and QIKT. You can find most of the models in [pyKT](https://pykt-toolkit.readthedocs.io/en/latest/models.html)
 
 ## Dynamic Graph Models
 Apart from traditional KT models, We conduct tests under general dynamic graph frameworks, TGN, TGAT, DyGFormer, and DyGKT to confirm the effectiveness of defining paradigms for training tasks under dynamic graphs and expressing dynamic features in the knowledge tracing task.
@@ -45,6 +45,10 @@ New datasets and new models are welcomed to be incorporated into DyGLib by pull 
 
 ### Scripts for Dynamic Node Classification
 Dynamic node classification could be performed on Wikipedia and Reddit (the only two datasets with dynamic labels).
+
+#### Data Preparing
+See detailed information in [DyGLib](https://github.com/yule-BUAA/DyGLib)
+
 #### Model Training
 * Example of training *DyGKT* on *assist17* dataset:
 ```{bash}
