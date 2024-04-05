@@ -22,8 +22,7 @@ class QIKT(nn.Module):
         self.num_skills = int(np.unique(self.node_raw_features[:, 0]).max()) + 1
         self.num_nodes = self.node_raw_features.shape[0]
 
-        self.edge_dim = edge_raw_features.shape[
-            1]  # 还有label一起在edge_raw_feature中 #对LSTM/RNN的输入的数据长度进行设置，edge_raw_features.shape[1]
+        self.edge_dim = edge_raw_features.shape[1] 
         self.node_dim = node_raw_features.shape[1]
 
         self.cog_matrix = nn.Parameter(torch.randn(self.node_dim+2, self.node_dim * 2).to(device), requires_grad=True) 

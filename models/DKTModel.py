@@ -25,7 +25,7 @@ class DKTModel(nn.Module):
         self.node_raw_features = torch.from_numpy(node_raw_features.astype(np.float32))#.to(device)
         self.edge_raw_features = torch.from_numpy(edge_raw_features.astype(np.float32))#.to(device)
 
-        self.edge_dim = edge_raw_features.shape[1] # 还有label一起在edge_raw_feature中 #对LSTM/RNN的输入的数据长度进行设置，edge_raw_features.shape[1]
+        self.edge_dim = edge_raw_features.shape[1] 
         self.node_dim = node_raw_features.shape[1]
         self.time_dim = time_dim
 
