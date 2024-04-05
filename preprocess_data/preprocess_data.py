@@ -10,13 +10,7 @@ from scipy import stats
 from tqdm import tqdm
 import glob
 import re
-# timestr = '2019-01-14 15:22:18'
-# datetime_obj = datetime.strptime(timestr, "%Y-%m-%d %H:%M:%S")
-# ret_stamp = int(time.mktime(datetime_obj.timetuple()))
-# print(ret_stamp)
-# y = pd.read_csv("E:\Programs\Graph0\my\DyGLib-master\DG_data\Slepemapy\\answer.csv",nrows=30)
-# m = [p==q for (p,q) in zip(y['place_asked'],y['place_answered'])]
-# print(y)
+
 def reindexTime(time_list:list, mode="%Y-%m-%d %H:%M:%S"):
     time_mode = [datetime.strptime(ts[:19], mode) for ts in time_list]
     second_time = [int(time.mktime(datetime_obj.timetuple())) for datetime_obj in time_mode]
@@ -27,7 +21,7 @@ def reindexColumn(column:list):
     uni_id = set(range(0,len(uni_column)))
     dict_column = dict(zip(uni_column,uni_id))
     return [dict_column[id] for id in column]
-# reindexColumnSkill(merged_df['question_id'],problem_dict)
+
 def reindexColumnSkill(column:list, skill:dict):
     uni_column = set(column)
     uni_id = set(range(0,len(uni_column)))
@@ -65,7 +59,7 @@ def preprocess(dataset_name: str):
             #llabel = float(0 if e[3] < 0.5 else 1)
 
             # edge features
-            feat = [label, 0]#np.array([float(x) for x in e[3:]])
+            feat = [label, 0]
 
             u_list.append(u)
             i_list.append(i)
@@ -75,7 +69,7 @@ def preprocess(dataset_name: str):
             idx_list.append(idx)
 
             feat_l.append(feat)
-    print("总共做对多少题目",sum(label_list),sum(label_list)/len(label_list)*100 ,"%")
+    print("rate:",sum(label_list),sum(label_list)/len(label_list)*100 ,"%")
     return pd.DataFrame({'u': u_list,
                          'i': i_list,
                          'ts': ts_list,
@@ -168,34 +162,24 @@ def preprocessKTDiff(dataset_name: str,PATH:str):
 
 def preprocessEdnetKT1():
     problem_df = pd.read_csv('/home/plz/my/data/questions.csv',sep=',')
-    # 将 question_id 列设置为索引列
     problem_df.set_index('question_id', inplace=True)
 
-    # 将 tag 列按 ';' 分割成列表形式，并将其作为新列添加到 DataFrame 中, 删除 tag 列
     problem_df['tags'] = problem_df['tags'].str.split(';')
-    # problem_df.drop('tag', axis=1, inplace=True)
-    # 将 DataFrame 转换为字典
     problem_dict = problem_df.to_dict(orient='index') 
 
-    # 遍历所有 u+数字+.csv 文件
     merged_df = pd.DataFrame()
     i = 0 
     pdlist =  [[] for _ in range(100)]
 
     for filename in tqdm(glob.glob('/home/plz/my/data/KT1/u*.csv')):
-        # 读取文件为 pandas DataFrame
-        # if i > 5:
-        #     break
         i += 1
         df = pd.read_csv(filename, usecols=['question_id', 'timestamp', 'user_answer'],index_col=None,sep=',')
-
-        # 将正确答案列添加到 DataFrame 中
         length = len(df)
         number = re.findall(r'\d+', filename)[1]
         ids = [number] * length
         df['u'] = ids
         pdlist[i//10000].append(df)
-        # merged_df = pd.concat([merged_df, df])
+
     for pdx in pdlist:
         merged_df = pd.concat([merged_df, pd.concat(pdx)])
     merged_df = merged_df[merged_df['question_id'].isin(problem_dict)]
@@ -204,14 +188,12 @@ def preprocessEdnetKT1():
     merged_df.drop(['correct_answer','user_answer'], axis=1, inplace=True)
 
     merged_df.sort_values(by='timestamp')
-    # print(merged_df)
     u_list = reindexColumn(merged_df['u'])
     i_list, feat_skill = reindexColumnSkill(merged_df['question_id'],problem_dict)
     ts_list = merged_df['timestamp']
     label_list = merged_df['r']
 
-    # 填充 numpy 数组
-    item_i = u_len = len(set(u_list)) + 1 #因为边要从0开始编码，所以对于第0条要空出来且对u编码的时候要往后面挪一格
+    item_i = u_len = len(set(u_list)) + 1 
     i_len = len(set(i_list))
     feat_n = np.zeros((u_len + i_len, 20), dtype=int)
 
@@ -219,7 +201,6 @@ def preprocessEdnetKT1():
         feat_n[item_i, :len(tags)] = tags
         item_i += 1
 
-    
     p = pd.DataFrame({'u': u_list,
                          'i': i_list,
                          'ts': ts_list,
@@ -227,7 +208,6 @@ def preprocessEdnetKT1():
                          'idx': range(len(u_list))})
     
     print(sum(label_list)/len(label_list))
-
     return p, label_list[:,np.newaxis],feat_n
 
     
@@ -260,21 +240,11 @@ def preprocessKT(dataset_name: str,PATH:str):
         reindex_time = True
 
     print(f.shape)
-    # f = f.filter(lambda x: len(x) > threshold)
-    # 使用 .filter 和 lambda 表达式来筛选数据
     f = f[f[cols[3]].apply(lambda x: x in [0, 1])]
     # new_f = pd.DataFrame(columns = cols)
     threshold = 5
     f = f.groupby(cols[1]).filter(lambda x: len(x) > threshold)
-    
     f = f.groupby(cols[0]).filter(lambda x: len(x) > threshold)
-
-    f = f.groupby(cols[1]).filter(lambda x: len(x) > threshold)
-    print("m1",f.shape) 
-
-    f = f.groupby(cols[0]).filter(lambda x: len(x) > threshold)
-    print("m2",f.shape)
-    
 
 
     if reindex_time: f[cols[2]] = reindexTime(f[cols[2]])
@@ -287,7 +257,7 @@ def preprocessKT(dataset_name: str,PATH:str):
 
     # print(f.head(2))
     
-    item_i = u_len = len(set(u_list)) + 1 #因为边要从0开始编码，所以对于第0条要空出来且对u编码的时候要往后面挪一格
+    item_i = u_len = len(set(u_list)) + 1 
     i_len = len(set(i_list))
     feat_n = np.zeros(u_len + i_len)
     
@@ -363,7 +333,7 @@ def preprocess_data(dataset_name: str, bipartite: bool = True, node_feat_dim: in
         df, edge_feats = preprocess(PATH)
         new_df = reindex(df, bipartite)
         max_idx = max(new_df.u.max(), new_df.i.max())
-        node_feats = np.zeros((max_idx + 1, node_feat_dim)) #因为是从1开始对节点编号所以第0个节点就是0000，其实不存在
+        node_feats = np.zeros((max_idx + 1, node_feat_dim)) 
 
     print("new_df",new_df.shape,edge_feats.shape)
 
