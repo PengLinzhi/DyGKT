@@ -4,9 +4,8 @@ import torch.nn as nn
 from utils.utils import NeighborSampler
 from models.modules import TimeEncoder, TimeDualDecayEncoder
 import seaborn as sns
+
 # neighbor sampler strategy: recent
-# 这一版的思路：将u-i按时间顺序一个一个喂，借助Neighbor获取直接得到它前面的那几个，如果不够就Pad，如果够就neighbor(num_neighbors max_length)来处理
-# X:直接输入edge_feature->skill,q + self.num_q * r但是如何把r编进去呢？：把r直接拼接到q上，将r和q作为edge特征直接输入
 
 class DyGKT(nn.Module):
     def __init__(self,node_raw_features: np.ndarray,
@@ -27,7 +26,7 @@ class DyGKT(nn.Module):
         self.num_skills = int(np.unique(self.node_raw_features[:, 0]).max()) + 1
         self.num_nodes = self.node_raw_features.shape[0]
 
-        self.edge_dim = 64#edge_raw_features.shape[1] # 还有label一起在edge_raw_feature中 #对LSTM/RNN的输入的数据长度进行设置，edge_raw_features.shape[1]
+        self.edge_dim = 64
         self.node_dim = 64
         self.time_dim = time_dim
 
@@ -122,11 +121,11 @@ class DyGKT(nn.Module):
                      nodes_neighbor_times: np.ndarray,node_interact_times: np.ndarray):
         
         if self.ablation in ['embed', 'q_kid']:
-            nodes_neighbor_node_raw_features = self.projection_layer['feature_Embed'](self.node_raw_features[torch.from_numpy(nodes_neighbor_ids)].to(self.device)[:,:,0].long()) # 现在做的题目本身的skill！！
+            nodes_neighbor_node_raw_features = self.projection_layer['feature_Embed'](self.node_raw_features[torch.from_numpy(nodes_neighbor_ids)].to(self.device)[:,:,0].long()) 
         elif self.ablation == 'q_qid':
-            nodes_neighbor_node_raw_features = self.projection_layer['node'](torch.from_numpy(nodes_neighbor_ids).to(self.device))  # 现在做的题目本身的skill！！
+            nodes_neighbor_node_raw_features = self.projection_layer['node'](torch.from_numpy(nodes_neighbor_ids).to(self.device))  
         else:
-            nodes_neighbor_node_raw_features = self.projection_layer['feature_Linear'](self.node_raw_features[torch.from_numpy(nodes_neighbor_ids)].to(self.device)) # 现在做的题目本身的skill！！
+            nodes_neighbor_node_raw_features = self.projection_layer['feature_Linear'](self.node_raw_features[torch.from_numpy(nodes_neighbor_ids)].to(self.device)) 
         
         if self.ablation == 'dual':
             nodes_neighbor_time_features = self.time_encoder(torch.from_numpy(node_interact_times[:,np.newaxis]-nodes_neighbor_times).float().to(self.device))
@@ -134,7 +133,7 @@ class DyGKT(nn.Module):
             nodes_neighbor_time_features = self.time_encoder(torch.from_numpy(nodes_neighbor_times).float().to(self.device))
         
         nodes_neighbor_time_features = self.projection_layer['time'](nodes_neighbor_time_features)
-        nodes_edge_raw_features = self.projection_layer['edge'](self.edge_raw_features[torch.from_numpy(nodes_edge_ids)].to(self.device)[:,:,0].unsqueeze(-1)) #self.projection_layer['edge'](
+        nodes_edge_raw_features = self.projection_layer['edge'](self.edge_raw_features[torch.from_numpy(nodes_edge_ids)].to(self.device)[:,:,0].unsqueeze(-1)) 
         
         if self.ablation == 'time':
             nodes_neighbor_time_features *= 0

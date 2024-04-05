@@ -4,9 +4,6 @@ import torch.nn as nn
 from utils.utils import NeighborSampler
 from models.modules import TimeEncoder, TransformerEncoder, TimeDecayEncoder, TimeDualDecayEncoder, multiParallelEncoder
 import seaborn as sns
-# neighbor sampler strategy: recent
-# 这一版的思路：将u-i按时间顺序一个一个喂，借助Neighbor获取直接得到它前面的那几个，如果不够就Pad，如果够就neighbor(num_neighbors max_length)来处理
-# X:直接输入edge_feature->skill,q + self.num_q * r但是如何把r编进去呢？：把r直接拼接到q上，将r和q作为edge特征直接输入
 
 class DKTModel(nn.Module):
     def __init__(self,node_raw_features: np.ndarray,

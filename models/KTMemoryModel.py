@@ -204,33 +204,6 @@ class KTMemoryModel(torch.nn.Module):
     def get_features(self, node_interact_times: np.ndarray, nodes_neighbor_ids: np.ndarray,
                      nodes_neighbor_edge_ids: np.ndarray,
                      nodes_neighbor_times: np.ndarray, dst: False):
-        #
-        # use memory as node feature:
-        # print(self.node_raw_features[torch.from_numpy(nodes_neighbor_ids)][:,:,0].long())
-        # skill_memories = self.memory_bank.get_memories_skill(
-        #     self.num_nodes + self.node_raw_features[torch.from_numpy(nodes_neighbor_ids)][:, :, 0].long().to(
-        #         self.device))
-        # #
-        # nodes_neighbor_node_memory_features = self.projection_layer['feature'](
-        #     skill_memories)  # 现在做的题目本身的skill！！self.node_num+nodes_neighbor_ids
-        # # if not dst: nodes_neighbor_node_memory_features = torch.zeros_like(nodes_neighbor_node_memory_features)
-        #
-        # if dst:
-        #     nodes_neighbor_node_memory_features[:, :-1, :] = torch.zeros_like(
-        #         nodes_neighbor_node_memory_features[:, :-1, :])
-        #     node_memories_neighbor = self.memory_bank.get_memories_student(
-        #         torch.from_numpy(nodes_neighbor_ids[:, :-1]).to(self.device))
-        #     node_memories_end = self.memory_bank.get_memories_question(
-        #         torch.from_numpy(nodes_neighbor_ids[:, -1]).to(self.device).unsqueeze(1))
-        # else:
-        #     nodes_neighbor_node_memory_features[:, -1, :] = torch.zeros_like(
-        #         nodes_neighbor_node_memory_features[:, -1, :])
-        #     node_memories_neighbor = self.memory_bank.get_memories_question(
-        #         torch.from_numpy(nodes_neighbor_ids[:, :-1]).to(self.device))
-        #     node_memories_end = self.memory_bank.get_memories_student(
-        #         torch.from_numpy(nodes_neighbor_ids[:, -1]).to(self.device).unsqueeze(1))
-        #
-        # node_memories = torch.cat([node_memories_neighbor, node_memories_end], dim=1)
 
         nodes_neighbor_node_raw_features = 0#nodes_neighbor_node_memory_features + self.projection_layer['memory'](node_memories)
         # torch.zeros_like(nodes_neighbor_node_memory_features) #nodes_neighbor_node_memory_features + self.projection_layer['memory'](node_memories[torch.from_numpy(nodes_neighbor_ids).to(self.device)])

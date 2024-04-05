@@ -25,7 +25,7 @@ class IEKT(nn.Module):
         self.num_nodes = self.node_raw_features.shape[0]
 
         self.edge_dim = edge_raw_features.shape[
-            1]  # 还有label一起在edge_raw_feature中 #对LSTM/RNN的输入的数据长度进行设置，edge_raw_features.shape[1]
+            1]  
         self.node_dim = node_raw_features.shape[1]
         
 
@@ -98,18 +98,14 @@ class IEKT_h(nn.Module):
         h = torch.zeros(data_len, self.model.emb_size).to(self.device)
 
         rt_x = torch.zeros(data_len, 1, self.model.emb_size * 2).to(self.device)
-        for seqi in range(0, seq_len):#序列长度
-            #debug_print(f"start data_new, c is {data_new}",fuc_name='train_one_step')
+        for seqi in range(0, seq_len):
             ques_h = torch.cat([
                 self.model.get_ques_representation(q=data_new['cq'][:,seqi], c=data_new['cc'][:,seqi]),
                 h], dim = 1)#equation4
-            # d = 64*3 [题目,知识点,h]
 
-
-            # F.softmax(self.mlp
             flip_prob_emb = self.model.pi_cog_func(ques_h)
 
-            m = Categorical(flip_prob_emb)#equation 5 的 f_p
+            m = Categorical(flip_prob_emb)#equation 5 
             emb_ap = m.sample()#equation 5
             emb_p = self.model.cog_matrix[emb_ap,:]#equation 6
 
@@ -117,7 +113,7 @@ class IEKT_h(nn.Module):
                                                         h=h, x=rt_x, emb=emb_p)#equation 7
             prob = sigmoid_func(logits)#equation 7 sigmoid
 
-            out_operate_groundtruth = data_new['cr'][:,seqi].unsqueeze(-1) #获取标签
+            out_operate_groundtruth = data_new['cr'][:,seqi].unsqueeze(-1)
             
             out_x_groundtruth = torch.cat([
                 h_v.mul(out_operate_groundtruth.repeat(1, h_v.size()[-1]).float()),
@@ -131,7 +127,7 @@ class IEKT_h(nn.Module):
                 dim = 1)#equation10                
             out_x = torch.cat([out_x_groundtruth, out_x_logits], dim = 1)#equation11
             ground_truth = data_new['cr'][:,seqi]
-            flip_prob_emb = self.model.pi_sens_func(out_x)##equation12中的f_e
+            flip_prob_emb = self.model.pi_sens_func(out_x)#equation12
 
             m = Categorical(flip_prob_emb)
             emb_a = m.sample()
@@ -173,7 +169,7 @@ class IEKTNet(nn.Module):
     def obtain_v(self, q, c, h, x, emb):
         v = self.get_ques_representation(q,c)
         predict_x = torch.cat([h, v], dim = 1)#equation4
-        h_v = torch.cat([h, v], dim = 1)#equation4 为啥要计算两次？
+        h_v = torch.cat([h, v], dim = 1)#equation4
         prob = self.predictor(torch.cat([
             predict_x, emb
         ], dim = 1))#equation7
@@ -183,11 +179,11 @@ class IEKTNet(nn.Module):
         #equation 13
         v_cat = torch.cat([
             v.mul(operate.repeat(1, self.emb_size * 2)),
-            v.mul((1 - operate).repeat(1, self.emb_size * 2))], dim = 1)#v_t扩展，分别对应正确的错误的情况
+            v.mul((1 - operate).repeat(1, self.emb_size * 2))], dim = 1)
         e_cat = torch.cat([
             emb.mul((1-operate).repeat(1, self.emb_size * 2)),
-            emb.mul((operate).repeat(1, self.emb_size * 2))], dim = 1)# s_t 扩展，分别对应正确的错误的情况
-        inputs = v_cat + e_cat#起到concat作用
+            emb.mul((operate).repeat(1, self.emb_size * 2))], dim = 1)
+        inputs = v_cat + e_cat
         
         h_t_next = self.gru_h(inputs, h)#equation14
         return h_t_next
