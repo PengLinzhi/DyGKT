@@ -11,7 +11,7 @@ processed_data/*
 
 preprocess_data/*
 !preprocess_data/preprocess_data.py
-!preprocess_data/data_statistics.py
+!preprocess_data/analyse_data.py
 # 忽略 models 文件夹下的所有内容
 !models/*
 !utils/*
