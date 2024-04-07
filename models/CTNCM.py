@@ -76,7 +76,7 @@ class CTNCM(nn.Module):
                      nodes_neighbor_times: np.ndarray):
         # one hot node feature lead to bad performance; reason :
         nodes_neighbor_node_raw_features = self.projection_layer['feature'](
-                self.node_raw_features[torch.from_numpy(nodes_neighbor_ids)][:,:,0].long().to(self.device))  # 现在做的题目本身的skill！！
+                self.node_raw_features[torch.from_numpy(nodes_neighbor_ids)][:,:,0].long().to(self.device))  
 
         nodes_neighbor_time_features = self.time_encoder(
             torch.from_numpy(node_interact_times[:, np.newaxis] - nodes_neighbor_times).float().to(self.device))

@@ -25,9 +25,7 @@ models/DKTModel.py
 models/DKTModel_V4.py
 models/EdgeBank.py
 models/GraphMixer.py
-models/KTMemoryModel.py
 models/TCL.py
-models/KTMemoryModel.py
 
 zreadout.py
 case_study.py

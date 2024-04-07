@@ -84,7 +84,7 @@ class AKT(nn.Module):
     def get_features(self, node_interact_times: np.ndarray, nodes_neighbor_ids: np.ndarray, nodes_edge_ids: np.ndarray,
                      nodes_neighbor_times: np.ndarray):
         # one hot node feature lead to bad performance; reason :
-        nodes_neighbor_node_raw_features = self.projection_layer['node'](torch.from_numpy(nodes_neighbor_ids).to(self.device))  # 现在做的题目本身的skill！！
+        nodes_neighbor_node_raw_features = self.projection_layer['node'](torch.from_numpy(nodes_neighbor_ids).to(self.device)) 
 
         nodes_neighbor_time_features = self.time_encoder(
             torch.from_numpy(node_interact_times[:, np.newaxis] - nodes_neighbor_times).float().to(self.device))

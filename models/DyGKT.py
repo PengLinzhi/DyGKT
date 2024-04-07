@@ -97,8 +97,8 @@ class DyGKT(nn.Module):
             node_interact_times=node_interact_times, nodes_edge_ids=dst_neighbor_edge_ids,
             nodes_neighbor_ids=dst_neighbor_node_ids, nodes_neighbor_times=dst_neighbor_times)
         
-        src_nodes_features = src_nodes_neighbor_node_raw_features + src_nodes_edge_raw_features + src_nodes_neighbor_time_features #+ src_nodes_neighbor_struct_features  # torch.cat((src_nodes_neighbor_node_raw_features, src_nodes_edge_raw_features),dim=-1) # 该生做过的题目的题号和作对与否
-        dst_nodes_features = dst_nodes_neighbor_node_raw_features + dst_nodes_edge_raw_features + dst_nodes_neighbor_time_features #+ dst_nodes_neighbor_struct_features  # torch.cat((dst_nodes_neighbor_node_raw_features, dst_nodes_edge_raw_features), dim=-1) # 做题学生和做对与否 编码题目？？题号去哪里了
+        src_nodes_features = src_nodes_neighbor_node_raw_features + src_nodes_edge_raw_features + src_nodes_neighbor_time_features #+ src_nodes_neighbor_struct_features  # torch.cat((src_nodes_neighbor_node_raw_features, src_nodes_edge_raw_features),dim=-1) 
+        dst_nodes_features = dst_nodes_neighbor_node_raw_features + dst_nodes_edge_raw_features + dst_nodes_neighbor_time_features #+ dst_nodes_neighbor_struct_features  # torch.cat((dst_nodes_neighbor_node_raw_features, dst_nodes_edge_raw_features), dim=-1) 
 
         src_node_embeddings = self.src_node_updater.update(
             src_nodes_features[:, :-1, :] + src_nodes_neighbor_skill_struct_features+ src_nodes_neighbor_struct_features) + (src_nodes_edge_raw_features + src_nodes_neighbor_time_features)[:,-1, :]
