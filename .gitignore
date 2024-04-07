@@ -10,14 +10,24 @@ processed_data/*
 !processed_data/assist17/
 
 preprocess_data/*
-!preprocess_data/preprocess_data.py
-!preprocess_data/analyse_data.py
+#!preprocess_data/preprocess_data.py
+#!preprocess_data/analyse_data.py
 # 忽略 models 文件夹下的所有内容
 !models/*
 !utils/*
 
 # 指定的三个 py 文件
 *.bat
+
+# models 没用的
+models/CAWN.py
+models/DKTModel.py
+models/DKTModel_V4.py
+models/EdgeBank.py
+models/GraphMixer.py
+models/KTMemoryModel.py
+models/TCL.py
+models/KTMemoryModel.py
 
 zreadout.py
 case_study.py
