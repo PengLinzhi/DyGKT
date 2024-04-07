@@ -16,7 +16,7 @@ def get_link_classification_args(is_evaluation: bool = False):
                         choices=['junyi','EdnetKT1','Slepemapy', 'assist17','assist12'])
     parser.add_argument('--batch_size', type=int, default=2000, help='batch size')
     parser.add_argument('--model_name', type=str, default='DyGKT', help='name of the model',
-                        choices=['DyGKT','QIKT','IEKT','IPKT','DIMKT','simpleKT','AKTMemory','DKTMemory','CTNCM','AKT','DKT', 'TGAT', 'TGN', 'DyGFormer'])
+                        choices=['DyGKT','QIKT','IEKT','IPKT','DIMKT','simpleKT','CTNCM','AKT','DKT', 'TGAT', 'TGN', 'DyGFormer'])
     parser.add_argument('--gpu', type=int, default=0, help='number of gpu to use')
 
     parser.add_argument('--ablation', type=str, default='-1', choices=['-1','q_qid','q_kid','counter', 'dual', 'embed','skill','time'], help='how to sample historical neighbors')
