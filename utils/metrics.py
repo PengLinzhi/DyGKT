@@ -3,7 +3,7 @@ from sklearn.metrics import average_precision_score, roc_auc_score
 
 def get_link_classification_metrics(predicts: torch.Tensor, labels: torch.Tensor):
     """
-    get metrics for the link prediction task
+    get metrics for the link classification task
     :param predicts: Tensor, shape (num_samples, )
     :param labels: Tensor, shape (num_samples, )
     :return:
@@ -11,8 +11,8 @@ def get_link_classification_metrics(predicts: torch.Tensor, labels: torch.Tensor
     """
     predicts = predicts.cpu().detach().numpy()
     labels = labels.cpu().numpy()
-    
     average_precision = average_precision_score(y_true=labels, y_score=predicts)
     roc_auc = roc_auc_score(y_true=labels, y_score=predicts)
 
     return {'average_precision': average_precision, 'roc_auc': roc_auc}
+

@@ -3,7 +3,7 @@ import torch.nn as nn
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-from utils.metrics import get_link_prediction_metrics
+from utils.metrics import get_link_classification_metrics
 from utils.utils import NegativeEdgeSampler, NeighborSampler
 from utils.DataLoader import Data
 
@@ -12,7 +12,7 @@ def evaluate_model_link_classification(model_name: str, model: nn.Module, neighb
                                    evaluate_neg_edge_sampler: NegativeEdgeSampler, evaluate_data: Data, loss_func: nn.Module,
                                    num_neighbors: int = 20, time_gap: int = 2000):
     """
-    evaluate models on the link prediction task
+    evaluate models on the link classification task
     :param model_name: str, name of the model
     :param model: nn.Module, the model to be evaluated
     :param neighbor_sampler: NeighborSampler, neighbor sampler
@@ -99,7 +99,7 @@ def evaluate_model_link_classification(model_name: str, model: nn.Module, neighb
         evaluate_predict = torch.cat(evaluate_predicts, dim=0)
         evaluate_label = torch.cat(evaluate_labels, dim=0)
 
-        evaluate_metrics.append(get_link_prediction_metrics(predicts=evaluate_predict, labels=evaluate_label))
+        evaluate_metrics.append(get_link_classification_metrics(predicts=evaluate_predict, labels=evaluate_label))
 
     return evaluate_losses, evaluate_metrics
 
