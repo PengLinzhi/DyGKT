@@ -227,18 +227,13 @@ if __name__ == "__main__":
             train_predicts, train_labels = [], []
             train_idx_data_loader_tqdm = tqdm(train_idx_data_loader, ncols=120)
             for batch_idx, train_data_indices in enumerate(train_idx_data_loader_tqdm):
-                # if batch_idx > 1832:break
                 train_data_indices = train_data_indices.numpy()
                 batch_src_node_ids, batch_dst_node_ids, batch_node_interact_times, batch_edge_ids, batch_edge_labels= \
                     train_data.src_node_ids[train_data_indices], train_data.dst_node_ids[train_data_indices], \
                     train_data.node_interact_times[train_data_indices], train_data.edge_ids[train_data_indices],\
                     train_data.labels[train_data_indices]
 
-                # _, batch_neg_dst_node_ids = train_neg_edge_sampler.sample(size=len(batch_src_node_ids))
-                # batch_neg_src_node_ids = batch_src_node_ids
-                # if batch_idx > 10:break
-                # we need to compute for positive and negative edges respectively, because the new sampling strategy (for evaluation) allows the negative source nodes to be
-                # different from the source nodes, this is different from previous works that just replace destination nodes with negative destination nodes
+             
                 
                 if args.model_name in ['DyGKT','DKT','AKT','CTNCM','simpleKT']:
                     batch_src_node_embeddings,batch_dst_node_embeddings = \
@@ -254,20 +249,8 @@ if __name__ == "__main__":
                                                                             node_interact_times=batch_node_interact_times,
                                                                             edge_ids=batch_edge_ids)
                             
-                elif args.model_name in ['AKTMemory','DKTMemory']:
-                    # note that negative nodes do not change the memories while the positive nodes change the memories,
-                    # we need to first compute the embeddings of negative nodes for memory-based models
-                    # get temporal embedding of negative source and negative destination nodes
-                    # two Tensors, with shape (batch_size, node_feat_dim)
-                    batch_src_node_embeddings,batch_dst_node_embeddings =  \
-                        model[0].compute_src_dst_node_temporal_embeddings(src_node_ids=batch_src_node_ids,
-                                                                          dst_node_ids=batch_dst_node_ids,
-                                                                          node_interact_times=batch_node_interact_times,
-                                                                          edge_ids=batch_edge_ids,
-                                                                          edges_are_positive=True,
-                                                                          num_neighbors=args.num_neighbors)
 
-                elif args.model_name in ['TGAT', 'CAWN', 'TCL']:
+                elif args.model_name in ['TGAT']:
                     # get temporal embedding of source and destination nodes
                     # two Tensors, with shape (batch_size, node_feat_dim)
                     batch_src_node_embeddings, batch_dst_node_embeddings = \
@@ -276,9 +259,7 @@ if __name__ == "__main__":
                                                                           node_interact_times=batch_node_interact_times,
                                                                           num_neighbors=args.num_neighbors)
 
-                    # get temporal embedding of negative source and negative destination nodes
-                    # two Tensors, with shape (batch_size, node_feat_dim)
-                elif args.model_name in ['JODIE', 'DyRep', 'TGN']:
+                elif args.model_name in ['TGN']:
                     # note that negative nodes do not change the memories while the positive nodes change the memories,
                     # we need to first compute the embeddings of negative nodes for memory-based models
                     # get temporal embedding of negative source and negative destination nodes
@@ -290,16 +271,7 @@ if __name__ == "__main__":
                                                                           edge_ids=batch_edge_ids,
                                                                           edges_are_positive=True,
                                                                           num_neighbors=args.num_neighbors)
-                elif args.model_name in ['GraphMixer']:
-                    # get temporal embedding of source and destination nodes
-                    # two Tensors, with shape (batch_size, node_feat_dim)
-                    batch_src_node_embeddings, batch_dst_node_embeddings = \
-                        model[0].compute_src_dst_node_temporal_embeddings(src_node_ids=batch_src_node_ids,
-                                                                          dst_node_ids=batch_dst_node_ids,
-                                                                          node_interact_times=batch_node_interact_times,
-                                                                          num_neighbors=args.num_neighbors,
-                                                                          time_gap=args.time_gap)
-
+                
                 elif args.model_name in ['DyGFormer']:
                     # get temporal embedding of source and destination nodes
                     # two Tensors, with shape (batch_size, node_feat_dim)
@@ -326,11 +298,11 @@ if __name__ == "__main__":
 
                 train_idx_data_loader_tqdm.set_description(f'Epoch: {epoch + 1}, train for the {batch_idx + 1}-th batch, train loss: {loss.item()}')
 
-                if args.model_name in ['AKTMemory','JODIE', 'DyRep', 'TGN']:
+                if args.model_name in ['TGN']:
                     # detach the memories and raw messages of nodes in the memory bank after each batch, so we don't back propagate to the start of time
                     model[0].memory_bank.detach_memory_bank()
 
-            if args.model_name in ['AKTMemory','JODIE', 'DyRep', 'TGN']:
+            if args.model_name in ['TGN']:
                 # backup memory bank after training so it can be used for new validation nodes
                 train_backup_memory_bank = model[0].memory_bank.backup_memory_bank()
             val_losses, val_metrics = evaluate_model_link_classification(model_name=args.model_name,
