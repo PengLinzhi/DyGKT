@@ -20,16 +20,10 @@ Eight classic or popular continuous-time knowledge tracing models are transforme
 Apart from traditional KT models, We conduct tests under general dynamic graph frameworks, TGN, TGAT, DyGFormer, and DyGKT to confirm the effectiveness of defining paradigms for training tasks under dynamic graphs and expressing dynamic features in the knowledge tracing task.
 
 ## Evaluation Tasks
-
 DyGLib supports dynamic link classification under both transductive and inductive settings with random negative sampling strategies.
 
 
-## Incorporate New Datasets or New Models
-
-New datasets and new models are welcomed to be incorporated into DyGLib by pull requests.
-* For new datasets: The format of new datasets should satisfy the requirements in DyGLib. 
-  Users can put the new datasets in ```DG_data``` folder, and then run ```preprocess_data/preprocess_data.py``` to get the processed datasets.
-  
+## Incorporate or New Models
 * For new models: Users can put the model implementation in  ```models``` folder, 
   and then create the model in ```train_xxx.py``` or ```evaluate_xxx.py``` to run the model.
 
@@ -42,8 +36,6 @@ New datasets and new models are welcomed to be incorporated into DyGLib by pull 
 [tqdm](https://github.com/tqdm/tqdm), and 
 [tabulate](https://github.com/astanin/python-tabulate)
 
-#### Data Preparing
-See detailed information in [DyGLib](https://github.com/yule-BUAA/DyGLib)
 
 #### Model Training
 * Example of training *DyGKT* on *assist17* dataset:
