@@ -29,17 +29,17 @@ In contrast, traditional approaches consider a batch as a batch size of students
 
 Our time complexity is **O(2*EL)**, and spatial complexity is **O(Ed+NM)**. Because we need to predict each pair by the previous L records. Factor 2 is due to encoding calculations performed on both the neighbor sequences of the student node and the question node, as we don't present questions by embedding techniques.
 
-<img width="364" alt="image" src="https://github.com/PengLinzhi/DyGKT/assets/73518557/99585a75-427d-4a98-aab7-99988da926f0">
+<img width="325" alt="image" src="https://github.com/PengLinzhi/DyGKT/assets/73518557/c624bc8f-c179-45e3-b532-9bb1be5c1a0a">
 
 
 
 In the traditional static KT models, (L-1) predictions are made in the sequence models once the student's L interactions are put in. So the time complexity of the traditional static KT models is **O(SL)**, and the space complexity is **O(Ed+Nd)**. 
 
-<img width="364" alt="image" src="https://github.com/PengLinzhi/DyGKT/assets/73518557/4400a8dd-9bf9-4584-acde-00e0a84960fc">
+<img width="364" alt="image" src="https://github.com/PengLinzhi/DyGKT/assets/73518557/45abf0d1-6ebf-4e11-a02c-659a32e2f921">
 
 But we will also compare the traditional KT models when they are implemented within the dynamic graph. We expand the original KT methods to predict the pair of the student and the question based on the current student's historical answering sequence, and the sequence length maintains L. The time complexity for this calculation is **O(ELd)**, and the space complexity is **O(Ed+Nd)**. 
 
-<img width="325" alt="image" src="https://github.com/PengLinzhi/DyGKT/assets/73518557/ddb9e5b1-b8da-47ad-a4f6-97541234b1a5">
+<img width="325" alt="image" src="https://github.com/PengLinzhi/DyGKT/assets/73518557/7422a79c-4919-45e3-ad6f-0de89ae070c6">
 
 
 The exact computation time of the model varies depending on the specific encoding method employed. For example, the AKT model utilizes attention mechanisms for computation, while the DKT model employs LSTM. The size of the model can measure the computational intensity. We have compiled a comparison of the methods used by all models in our paper, along with their respective time and space complexities, in Appendix Table 3.
