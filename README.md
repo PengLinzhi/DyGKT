@@ -19,6 +19,26 @@ Eight classic or popular continuous-time knowledge tracing models are transforme
 ## Dynamic Graph Models
 Apart from traditional KT models, We conduct tests under general dynamic graph frameworks, TGN, TGAT, DyGFormer, and DyGKT to confirm the effectiveness of defining paradigms for training tasks under dynamic graphs and expressing dynamic features in the knowledge tracing task.
 
+## Computation Cost Comparison
+
+Unlike traditional KT approaches, we choose the dynamic graph structure rather than a sequential structure to model the learning process. Firstly, we sort all the question records in the dataset in ascending order of time. Each batch consists of a batch size of answering records, and each record contains a pair of nodes representing a student and a question. We only extract the historical interactions of these nodes for encoding and make predictions based on the presentation of the node pair. 
+
+In contrast, traditional approaches and the three papers you mentioned consider a batch as a batch size of students, and they perform predictions on their question answering records as a whole. To facilitate training on these sequences, they often remove records that exceed 50/100 interactions, treating the sequence as static for training and prediction. However, we believe that such an approach cannot guarantee the dynamism of predicting student states and fails to fully capture the students' states without utilizing all of the data.
+
+**Setting node feature dimension/hidden dimension as d, neighbor sample length as L, node memory dimension as M(M<d), number of edges as E, and number of students as S(S<E).**
+
+Our time complexity is **O(2*EL)**, and spatial complexity is **O(Ed+NM)**. Because we need to predict each pair by the previous L records. Factor 2 is due to encoding calculations performed on both the neighbor sequences of the student node and the question node, as we don't present questions by embedding techniques.
+<img width="325" alt="image" src="https://github.com/PengLinzhi/DyGKT/assets/73518557/cc999c5e-6d52-4f3d-8aab-e95a4f8822b5">
+
+
+In the traditional static KT models, (L-1) predictions are made in the sequence models once the student's L interactions are put in. So the time complexity of the traditional static KT models is **O(SL)**, and the space complexity is **O(Ed+Nd)**. 
+<img width="364" alt="image" src="https://github.com/PengLinzhi/DyGKT/assets/73518557/4400a8dd-9bf9-4584-acde-00e0a84960fc">
+
+But we will also compare the traditional KT models when they are implemented within the dynamic graph. We expand the original KT methods to predict the pair of the student and the question based on the current student's historical answering sequence, and the sequence length maintains L. The time complexity for this calculation is **O(ELd)**, and the space complexity is **O(Ed+Nd)**. 
+<img width="325" alt="image" src="https://github.com/PengLinzhi/DyGKT/assets/73518557/165b571f-9fe9-4798-8d42-968cfeb336c0">
+
+The exact computation time of the model varies depending on the specific encoding method employed. For example, the AKT model utilizes attention mechanisms for computation, while the DKT model employs LSTM. The size of the model can measure the computational intensity. We have compiled a comparison of the methods used by all models in our paper, along with their respective time and space complexities, in Appendix Table 3.
+
 ## Evaluation Tasks
 DyGLib supports dynamic link classification under both transductive and inductive settings with random negative sampling strategies.
 
