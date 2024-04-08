@@ -29,21 +29,21 @@ In contrast, traditional approaches consider a batch as a batch size of students
 
 Our time complexity is **O(2*EL)**, and spatial complexity is **O(Ed+NM)**. Because we need to predict each pair by the previous L records. Factor 2 is due to encoding calculations performed on both the neighbor sequences of the student node and the question node, as we don't present questions by embedding techniques.
 
-<img width="325" alt="image" src="https://github.com/PengLinzhi/DyGKT/assets/73518557/c624bc8f-c179-45e3-b532-9bb1be5c1a0a">
+<img width="325" alt="image" src="DyGKT/assets/a.png">
 
 
 
 In the traditional static KT models, (L-1) predictions are made in the sequence models once the student's L interactions are put in. So the time complexity of the traditional static KT models is **O(SL)**, and the space complexity is **O(Ed+Nd)**. 
 
-<img width="364" alt="image" src="https://github.com/PengLinzhi/DyGKT/assets/73518557/45abf0d1-6ebf-4e11-a02c-659a32e2f921">
+<img width="364" alt="image" src="DyGKT/assets/b.png">
 
 But we will also compare the traditional KT models when they are implemented within the dynamic graph. We expand the original KT methods to predict the pair of the student and the question based on the current student's historical answering sequence, and the sequence length maintains L. The time complexity for this calculation is **O(ELd)**, and the space complexity is **O(Ed+Nd)**. 
 
-<img width="325" alt="image" src="https://github.com/PengLinzhi/DyGKT/assets/73518557/7422a79c-4919-45e3-ad6f-0de89ae070c6">
+<img width="325" alt="image" src="DyGKT/assets/c.png">
 
 
 The exact computation time of the model varies depending on the specific encoding method employed. For example, the AKT model utilizes attention mechanisms for computation, while the DKT model employs LSTM. The size of the model can measure the computational intensity. We have compiled a comparison of the methods used by all models in our paper, along with their respective time and space complexities, in Appendix Table 3.
-![image](https://github.com/PengLinzhi/DyGKT/assets/73518557/d0d897e0-b883-44d3-9e60-1b68d0cefdff)
+<img width="600" alt="image" src="DyGKT/assets/table3.png">
 
 
 ## Evaluation Tasks
