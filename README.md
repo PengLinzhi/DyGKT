@@ -43,7 +43,7 @@ But we will also compare the traditional KT models when they are implemented wit
 
 
 The exact computation time of the model varies depending on the specific encoding method employed. For example, the AKT model utilizes attention mechanisms for computation, while the DKT model employs LSTM. The size of the model can measure the computational intensity. We have compiled a comparison of the methods used by all models in our paper, along with their respective time and space complexities, in Appendix Table 3.
-<img width="600" alt="image" src="/assets/table3.png">
+<img width="800" alt="image" src="/assets/table3.png">
 
 
 ## Evaluation Tasks
