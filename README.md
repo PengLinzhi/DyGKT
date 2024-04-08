@@ -27,22 +27,22 @@ In contrast, traditional approaches consider a batch as a batch size of students
 
 **Setting node feature dimension/hidden dimension as d, neighbor sample length as L, node memory dimension as M(M<d), number of edges as E, number of nodes as N, and number of student nodes as S(S<N<E).**
 
-Our time complexity is **O(2*EL)**, and spatial complexity is **O(Ed+NM)**. Because we need to predict each pair by the previous L records. Factor 2 is due to encoding calculations performed on both the neighbor sequences of the student node and the question node, as we don't present questions by embedding techniques.
+Our time complexity is **O(2*EL)**, and spatial complexity is **O(Ed+NM)**. Because we need to predict each pair by the previous L records. Factor 2 is due to encoding calculations performed on both the neighbor sequences of the student node and the question node, as we don't present questions by embedding techniques. See description picture in /assets/a.png.
 
 <img width="325" alt="image" src="/assets/a.png">
 
 
 
-In the traditional static KT models, (L-1) predictions are made in the sequence models once the student's L interactions are put in. So the time complexity of the traditional static KT models is **O(SL)**, and the space complexity is **O(Ed+Nd)**. 
+In the traditional static KT models, (L-1) predictions are made in the sequence models once the student's L interactions are put in. So the time complexity of the traditional static KT models is **O(SL)**, and the space complexity is **O(Ed+Nd)**. See description picture in /assets/b.png.
 
 <img width="364" alt="image" src="/assets/b.png">
 
-But we will also compare the traditional KT models when they are implemented within the dynamic graph. We expand the original KT methods to predict the pair of the student and the question based on the current student's historical answering sequence, and the sequence length maintains L. The time complexity for this calculation is **O(ELd)**, and the space complexity is **O(Ed+Nd)**. 
+But we will also compare the traditional KT models when they are implemented within the dynamic graph. We expand the original KT methods to predict the pair of the student and the question based on the current student's historical answering sequence, and the sequence length maintains L. The time complexity for this calculation is **O(ELd)**, and the space complexity is **O(Ed+Nd)**. See description picture in /assets/c.png.
 
 <img width="325" alt="image" src="/assets/c.png">
 
 
-The exact computation time of the model varies depending on the specific encoding method employed. For example, the AKT model utilizes attention mechanisms for computation, while the DKT model employs LSTM. The size of the model can measure the computational intensity. We have compiled a comparison of the methods used by all models in our paper, along with their respective time and space complexities, in Appendix Table 3.
+The exact computation time of the model varies depending on the specific encoding method employed. For example, the AKT model utilizes attention mechanisms for computation, while the DKT model employs LSTM. The size of the model can measure the computational intensity. We have compiled a comparison of the methods used by all models in our paper, along with their respective time and space complexities, in Appendix Table 3. See description picture in /assets/table3.png.
 <img width="800" alt="image" src="/assets/table3.png">
 
 
