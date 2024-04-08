@@ -25,7 +25,7 @@ Unlike traditional KT approaches, we choose the dynamic graph structure rather t
 
 In contrast, traditional approaches consider a batch as a batch size of students, and they perform predictions on their question answering records as a whole. To facilitate training on these sequences, they often remove records that exceed 50/100 interactions, treating the sequence as static for training and prediction. However, we believe that such an approach cannot guarantee the dynamism of predicting student states and fails to fully capture the students' states without utilizing all of the data.
 
-**Setting node feature dimension/hidden dimension as d, neighbor sample length as L, node memory dimension as M(M<d), number of edges as E, and number of students as S(S<E).**
+**Setting node feature dimension/hidden dimension as d, neighbor sample length as L, node memory dimension as M(M<d), number of edges as E, number of nodes as N, and number of student nodes as S(S<N<E).**
 
 Our time complexity is **O(2*EL)**, and spatial complexity is **O(Ed+NM)**. Because we need to predict each pair by the previous L records. Factor 2 is due to encoding calculations performed on both the neighbor sequences of the student node and the question node, as we don't present questions by embedding techniques.
 
